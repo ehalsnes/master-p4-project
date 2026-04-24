@@ -1,0 +1,305 @@
+# proto-file: p4/config/v1/p4info.proto
+# proto-message: p4.config.v1.P4Info
+
+pkg_info {
+  arch: "v1model"
+}
+tables {
+  preamble {
+    id: 49697664
+    name: "MyIngress.tree_0"
+    alias: "tree_0"
+  }
+  match_fields {
+    id: 1
+    name: "meta.sttl"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 2
+    name: "meta.rate"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 3
+    name: "meta.smean"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 4
+    name: "meta.sinpkt"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 5
+    name: "meta.ct_state_ttl"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 6
+    name: "meta.dload"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  action_refs {
+    id: 22700725
+  }
+  action_refs {
+    id: 32447051
+  }
+  initial_default_action {
+    action_id: 32447051
+  }
+  size: 512
+}
+tables {
+  preamble {
+    id: 38739504
+    name: "MyIngress.tree_1"
+    alias: "tree_1"
+  }
+  match_fields {
+    id: 1
+    name: "meta.sttl"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 2
+    name: "meta.rate"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 3
+    name: "meta.smean"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 4
+    name: "meta.sinpkt"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 5
+    name: "meta.ct_state_ttl"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 6
+    name: "meta.dload"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  action_refs {
+    id: 22700725
+  }
+  action_refs {
+    id: 32447051
+  }
+  initial_default_action {
+    action_id: 32447051
+  }
+  size: 512
+}
+tables {
+  preamble {
+    id: 42252955
+    name: "MyIngress.tree_2"
+    alias: "tree_2"
+  }
+  match_fields {
+    id: 1
+    name: "meta.sttl"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 2
+    name: "meta.rate"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 3
+    name: "meta.smean"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 4
+    name: "meta.sinpkt"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 5
+    name: "meta.ct_state_ttl"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  match_fields {
+    id: 6
+    name: "meta.dload"
+    bitwidth: 32
+    match_type: RANGE
+  }
+  action_refs {
+    id: 22700725
+  }
+  action_refs {
+    id: 32447051
+  }
+  initial_default_action {
+    action_id: 32447051
+  }
+  size: 512
+}
+tables {
+  preamble {
+    id: 45569621
+    name: "MyIngress.ipv4_forward"
+    alias: "ipv4_forward"
+  }
+  match_fields {
+    id: 1
+    name: "hdr.ipv4.dst_addr"
+    bitwidth: 32
+    match_type: LPM
+  }
+  action_refs {
+    id: 29683729
+  }
+  action_refs {
+    id: 25652968
+  }
+  initial_default_action {
+    action_id: 25652968
+  }
+  size: 256
+}
+actions {
+  preamble {
+    id: 25883372
+    name: "MyIngress.compute_flow_features"
+    alias: "compute_flow_features"
+  }
+}
+actions {
+  preamble {
+    id: 22700725
+    name: "MyIngress.vote_attack"
+    alias: "vote_attack"
+  }
+}
+actions {
+  preamble {
+    id: 32447051
+    name: "MyIngress.vote_normal"
+    alias: "vote_normal"
+  }
+}
+actions {
+  preamble {
+    id: 25652968
+    name: "MyIngress.drop"
+    alias: "drop"
+  }
+}
+actions {
+  preamble {
+    id: 29683729
+    name: "MyIngress.forward"
+    alias: "forward"
+  }
+  params {
+    id: 1
+    name: "port"
+    bitwidth: 9
+  }
+}
+registers {
+  preamble {
+    id: 369640066
+    name: "pkt_count_reg"
+    alias: "pkt_count_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 65536
+}
+registers {
+  preamble {
+    id: 373722796
+    name: "byte_count_reg"
+    alias: "byte_count_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 65536
+}
+registers {
+  preamble {
+    id: 371878338
+    name: "last_seen_reg"
+    alias: "last_seen_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 48
+      }
+    }
+  }
+  size: 65536
+}
+registers {
+  preamble {
+    id: 371137557
+    name: "ttl_count_reg"
+    alias: "ttl_count_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 65536
+}
+registers {
+  preamble {
+    id: 372904015
+    name: "smean_reg"
+    alias: "smean_reg"
+  }
+  type_spec {
+    bitstring {
+      bit {
+        bitwidth: 32
+      }
+    }
+  }
+  size: 65536
+}
+type_info {
+}

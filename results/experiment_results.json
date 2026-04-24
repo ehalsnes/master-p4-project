@@ -1,0 +1,47 @@
+{
+  "control_5mbps_legit_mbps": 6.13,
+  "control_5mbps_trials": [
+    6.11,
+    6.1,
+    6.18
+  ],
+  "control_5mbps_rtt": "rtt min/avg/max/mdev = 2.741/3.183/3.540/0.173 ms",
+  "control_5mbps_h2_tx_pkts": 3,
+  "control_5mbps_h3_rx_pkts": 36610,
+  "baseline_mbps": 45.2,
+  "baseline_trials": [
+    45.2
+  ],
+  "baseline_rtt": "rtt min/avg/max/mdev = 3.015/3.340/5.841/0.462 ms",
+  "attack_2mbps_legit_mbps": 5.96,
+  "attack_2mbps_trials": [
+    5.86,
+    5.96,
+    6.06
+  ],
+  "attack_2mbps_rtt": "rtt min/avg/max/mdev = 2.989/3.834/8.973/1.193 ms",
+  "attack_2mbps_h2_tx_pkts": 1,
+  "attack_2mbps_h3_rx_pkts": 37152,
+  "attack_2mbps_drop_pct": 0.0,
+  "attack_5mbps_legit_mbps": 35.8,
+  "attack_5mbps_trials": [
+    35.8
+  ],
+  "attack_5mbps_rtt": "rtt min/avg/max/mdev = 4.424/4.572/5.034/0.132 ms",
+  "attack_5mbps_h2_tx_pkts": 0,
+  "attack_5mbps_h3_rx_pkts": 36,
+  "attack_10mbps_legit_mbps": 5.66,
+  "attack_10mbps_trials": [
+    5.69,
+    5.64,
+    5.66
+  ],
+  "attack_10mbps_rtt": "rtt min/avg/max/mdev = 3.050/3.572/3.834/0.218 ms",
+  "attack_10mbps_h2_tx_pkts": 1,
+  "attack_10mbps_h3_rx_pkts": 35793,
+  "attack_10mbps_drop_pct": 0.0,
+  "recovery_mbps": 42.1,
+  "recovery_trials": [
+    42.1
+  ]
+}

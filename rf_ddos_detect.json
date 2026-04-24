@@ -1,0 +1,2068 @@
+{
+  "header_types" : [
+    {
+      "name" : "scalars_0",
+      "id" : 0,
+      "fields" : [
+        ["tmp", 32, false],
+        ["tmp_0", 32, false],
+        ["tmp_1", 8, false],
+        ["tmp_2", 32, false],
+        ["tmp_3", 32, false],
+        ["pkt_count_0", 32, false],
+        ["byte_count_0", 32, false],
+        ["last_seen_0", 48, false],
+        ["smean_0", 32, false],
+        ["ttl_count_0", 32, false],
+        ["metadata_t.flow_id", 32, false],
+        ["metadata_t.sttl", 32, false],
+        ["metadata_t.ct_state_ttl", 32, false],
+        ["metadata_t.rate", 32, false],
+        ["metadata_t.dload", 32, false],
+        ["metadata_t.sinpkt", 32, false],
+        ["metadata_t.smean", 32, false],
+        ["metadata_t.vote_attack", 32, false],
+        ["metadata_t.is_ddos", 1, false],
+        ["_padding_0", 7, false]
+      ]
+    },
+    {
+      "name" : "standard_metadata",
+      "id" : 1,
+      "fields" : [
+        ["ingress_port", 9, false],
+        ["egress_spec", 9, false],
+        ["egress_port", 9, false],
+        ["instance_type", 32, false],
+        ["packet_length", 32, false],
+        ["enq_timestamp", 32, false],
+        ["enq_qdepth", 19, false],
+        ["deq_timedelta", 32, false],
+        ["deq_qdepth", 19, false],
+        ["ingress_global_timestamp", 48, false],
+        ["egress_global_timestamp", 48, false],
+        ["mcast_grp", 16, false],
+        ["egress_rid", 16, false],
+        ["checksum_error", 1, false],
+        ["parser_error", 32, false],
+        ["priority", 3, false],
+        ["_padding", 3, false]
+      ]
+    },
+    {
+      "name" : "ethernet_t",
+      "id" : 2,
+      "fields" : [
+        ["dst_addr", 48, false],
+        ["src_addr", 48, false],
+        ["ether_type", 16, false]
+      ]
+    },
+    {
+      "name" : "ipv4_t",
+      "id" : 3,
+      "fields" : [
+        ["version", 4, false],
+        ["ihl", 4, false],
+        ["diffserv", 8, false],
+        ["total_len", 16, false],
+        ["identification", 16, false],
+        ["flags", 3, false],
+        ["frag_offset", 13, false],
+        ["ttl", 8, false],
+        ["protocol", 8, false],
+        ["hdr_checksum", 16, false],
+        ["src_addr", 32, false],
+        ["dst_addr", 32, false]
+      ]
+    },
+    {
+      "name" : "tcp_t",
+      "id" : 4,
+      "fields" : [
+        ["src_port", 16, false],
+        ["dst_port", 16, false],
+        ["seq_no", 32, false],
+        ["ack_no", 32, false],
+        ["data_offset", 4, false],
+        ["res", 4, false],
+        ["flags", 8, false],
+        ["window", 16, false],
+        ["checksum", 16, false],
+        ["urgent_ptr", 16, false]
+      ]
+    },
+    {
+      "name" : "udp_t",
+      "id" : 5,
+      "fields" : [
+        ["src_port", 16, false],
+        ["dst_port", 16, false],
+        ["length", 16, false],
+        ["checksum", 16, false]
+      ]
+    }
+  ],
+  "headers" : [
+    {
+      "name" : "scalars",
+      "id" : 0,
+      "header_type" : "scalars_0",
+      "metadata" : true,
+      "pi_omit" : true
+    },
+    {
+      "name" : "standard_metadata",
+      "id" : 1,
+      "header_type" : "standard_metadata",
+      "metadata" : true,
+      "pi_omit" : true
+    },
+    {
+      "name" : "ethernet",
+      "id" : 2,
+      "header_type" : "ethernet_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "ipv4",
+      "id" : 3,
+      "header_type" : "ipv4_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "tcp",
+      "id" : 4,
+      "header_type" : "tcp_t",
+      "metadata" : false,
+      "pi_omit" : true
+    },
+    {
+      "name" : "udp",
+      "id" : 5,
+      "header_type" : "udp_t",
+      "metadata" : false,
+      "pi_omit" : true
+    }
+  ],
+  "header_stacks" : [],
+  "header_union_types" : [],
+  "header_unions" : [],
+  "header_union_stacks" : [],
+  "field_lists" : [],
+  "errors" : [
+    ["NoError", 0],
+    ["PacketTooShort", 1],
+    ["NoMatch", 2],
+    ["StackOutOfBounds", 3],
+    ["HeaderTooShort", 4],
+    ["ParserTimeout", 5],
+    ["ParserInvalidArgument", 6]
+  ],
+  "enums" : [],
+  "parsers" : [
+    {
+      "name" : "parser",
+      "id" : 0,
+      "init_state" : "start",
+      "parse_states" : [
+        {
+          "name" : "start",
+          "id" : 0,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "ethernet"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x0800",
+              "mask" : null,
+              "next_state" : "parse_ipv4"
+            },
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["ethernet", "ether_type"]
+            }
+          ]
+        },
+        {
+          "name" : "parse_ipv4",
+          "id" : 1,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "ipv4"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x06",
+              "mask" : null,
+              "next_state" : "parse_tcp"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x11",
+              "mask" : null,
+              "next_state" : "parse_udp"
+            },
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : [
+            {
+              "type" : "field",
+              "value" : ["ipv4", "protocol"]
+            }
+          ]
+        },
+        {
+          "name" : "parse_tcp",
+          "id" : 2,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "tcp"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        },
+        {
+          "name" : "parse_udp",
+          "id" : 3,
+          "parser_ops" : [
+            {
+              "parameters" : [
+                {
+                  "type" : "regular",
+                  "value" : "udp"
+                }
+              ],
+              "op" : "extract"
+            }
+          ],
+          "transitions" : [
+            {
+              "type" : "default",
+              "value" : null,
+              "mask" : null,
+              "next_state" : null
+            }
+          ],
+          "transition_key" : []
+        }
+      ]
+    }
+  ],
+  "parse_vsets" : [],
+  "deparsers" : [
+    {
+      "name" : "deparser",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "p4/rf_ddos_detect.p4",
+        "line" : 299,
+        "column" : 8,
+        "source_fragment" : "MyDeparser"
+      },
+      "order" : ["ethernet", "ipv4", "tcp", "udp"],
+      "primitives" : []
+    }
+  ],
+  "meter_arrays" : [],
+  "counter_arrays" : [],
+  "register_arrays" : [
+    {
+      "name" : "pkt_count_reg",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "p4/rf_ddos_detect.p4",
+        "line" : 78,
+        "column" : 25,
+        "source_fragment" : "pkt_count_reg"
+      },
+      "size" : 65536,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "byte_count_reg",
+      "id" : 1,
+      "source_info" : {
+        "filename" : "p4/rf_ddos_detect.p4",
+        "line" : 79,
+        "column" : 25,
+        "source_fragment" : "byte_count_reg"
+      },
+      "size" : 65536,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "last_seen_reg",
+      "id" : 2,
+      "source_info" : {
+        "filename" : "p4/rf_ddos_detect.p4",
+        "line" : 80,
+        "column" : 25,
+        "source_fragment" : "last_seen_reg"
+      },
+      "size" : 65536,
+      "bitwidth" : 48
+    },
+    {
+      "name" : "ttl_count_reg",
+      "id" : 3,
+      "source_info" : {
+        "filename" : "p4/rf_ddos_detect.p4",
+        "line" : 81,
+        "column" : 25,
+        "source_fragment" : "ttl_count_reg"
+      },
+      "size" : 65536,
+      "bitwidth" : 32
+    },
+    {
+      "name" : "smean_reg",
+      "id" : 4,
+      "source_info" : {
+        "filename" : "p4/rf_ddos_detect.p4",
+        "line" : 82,
+        "column" : 25,
+        "source_fragment" : "smean_reg"
+      },
+      "size" : 65536,
+      "bitwidth" : 32
+    }
+  ],
+  "calculations" : [
+    {
+      "name" : "calc",
+      "id" : 0,
+      "algo" : "crc32",
+      "input" : [
+        {
+          "type" : "field",
+          "value" : ["scalars", "tmp"]
+        },
+        {
+          "type" : "field",
+          "value" : ["scalars", "tmp_0"]
+        },
+        {
+          "type" : "field",
+          "value" : ["scalars", "tmp_1"]
+        }
+      ]
+    }
+  ],
+  "learn_lists" : [],
+  "actions" : [
+    {
+      "name" : "MyIngress.compute_flow_features",
+      "id" : 0,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "src_addr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 132,
+            "column" : 15,
+            "source_fragment" : "hdr.ipv4.src_addr"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "dst_addr"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 133,
+            "column" : 15,
+            "source_fragment" : "hdr.ipv4.dst_addr"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_1"]
+            },
+            {
+              "type" : "field",
+              "value" : ["ipv4", "protocol"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 134,
+            "column" : 15,
+            "source_fragment" : "hdr.ipv4.protocol"
+          }
+        },
+        {
+          "op" : "modify_field_with_hash_based_offset",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.flow_id"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            },
+            {
+              "type" : "calculation",
+              "value" : "calc"
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00010000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 129,
+            "column" : 8,
+            "source_fragment" : "hash(meta.flow_id, ..."
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.sttl"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "field",
+                    "value" : ["ipv4", "ttl"]
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 138,
+            "column" : 8,
+            "source_fragment" : "meta.sttl = (bit<32>)hdr.ipv4.ttl"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "pkt_count_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "pkt_count_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.flow_id"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 142,
+            "column" : 8,
+            "source_fragment" : "pkt_count_reg.read(pkt_count, meta.flow_id)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "pkt_count_0"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "pkt_count_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 143,
+            "column" : 8,
+            "source_fragment" : "pkt_count = pkt_count + 1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "pkt_count_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.flow_id"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "pkt_count_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 144,
+            "column" : 8,
+            "source_fragment" : "pkt_count_reg.write(meta.flow_id, pkt_count)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "byte_count_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "byte_count_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.flow_id"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 148,
+            "column" : 8,
+            "source_fragment" : "byte_count_reg.read(byte_count, meta.flow_id)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "byte_count_0"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "byte_count_0"]
+                      },
+                      "right" : {
+                        "type" : "field",
+                        "value" : ["standard_metadata", "packet_length"]
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 149,
+            "column" : 8,
+            "source_fragment" : "byte_count = byte_count ..."
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "byte_count_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.flow_id"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "byte_count_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 151,
+            "column" : 8,
+            "source_fragment" : "byte_count_reg.write(meta.flow_id, byte_count)"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "last_seen_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "last_seen_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.flow_id"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 155,
+            "column" : 8,
+            "source_fragment" : "last_seen_reg.read(last_seen, meta.flow_id)"
+          }
+        },
+        {
+          "op" : "_jump_if_zero",
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 156,
+            "column" : 8,
+            "source_fragment" : "if"
+          },
+          "parameters" : [
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "b2d",
+                  "left" : null,
+                  "right" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : ">",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "last_seen_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x000000000000"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0xe"
+            }
+          ]
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.sinpkt"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "&",
+                      "left" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "-",
+                              "left" : {
+                                "type" : "field",
+                                "value" : ["standard_metadata", "ingress_global_timestamp"]
+                              },
+                              "right" : {
+                                "type" : "field",
+                                "value" : ["scalars", "last_seen_0"]
+                              }
+                            }
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffffffff"
+                          }
+                        }
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x0000ffffffff"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 157,
+            "column" : 12,
+            "source_fragment" : "meta.sinpkt = (bit<32>)( ..."
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "last_seen_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.flow_id"]
+            },
+            {
+              "type" : "field",
+              "value" : ["standard_metadata", "ingress_global_timestamp"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 161,
+            "column" : 8,
+            "source_fragment" : "last_seen_reg.write( ..."
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.rate"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "pkt_count_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 167,
+            "column" : 8,
+            "source_fragment" : "meta.rate = pkt_count"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.dload"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "byte_count_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 170,
+            "column" : 8,
+            "source_fragment" : "meta.dload = byte_count"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "smean_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "smean_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.flow_id"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 175,
+            "column" : 8,
+            "source_fragment" : "smean_reg.read(smean, meta.flow_id)"
+          }
+        },
+        {
+          "op" : "_jump_if_zero",
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 176,
+            "column" : 8,
+            "source_fragment" : "if"
+          },
+          "parameters" : [
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "b2d",
+                  "left" : null,
+                  "right" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "==",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "pkt_count_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x15"
+            }
+          ]
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "smean_0"]
+            },
+            {
+              "type" : "field",
+              "value" : ["standard_metadata", "packet_length"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 177,
+            "column" : 12,
+            "source_fragment" : "smean = pkt_len"
+          }
+        },
+        {
+          "op" : "_jump",
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 176,
+            "column" : 8,
+            "source_fragment" : "if"
+          },
+          "parameters" : [
+            {
+              "type" : "hexstr",
+              "value" : "0x16"
+            }
+          ]
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "smean_0"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : ">>",
+                      "left" : {
+                        "type" : "expression",
+                        "value" : {
+                          "op" : "&",
+                          "left" : {
+                            "type" : "expression",
+                            "value" : {
+                              "op" : "+",
+                              "left" : {
+                                "type" : "field",
+                                "value" : ["scalars", "smean_0"]
+                              },
+                              "right" : {
+                                "type" : "field",
+                                "value" : ["standard_metadata", "packet_length"]
+                              }
+                            }
+                          },
+                          "right" : {
+                            "type" : "hexstr",
+                            "value" : "0xffffffff"
+                          }
+                        }
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x1"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 179,
+            "column" : 12,
+            "source_fragment" : "smean = (smean + pkt_len) >> 1"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "smean_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.flow_id"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "smean_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 181,
+            "column" : 8,
+            "source_fragment" : "smean_reg.write(meta.flow_id, smean)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.smean"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "smean_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 182,
+            "column" : 8,
+            "source_fragment" : "meta.smean = smean"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_2"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "&",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "ttl"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0xffffffff"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x0000ffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 188,
+            "column" : 38,
+            "source_fragment" : "ttl_idx"
+          }
+        },
+        {
+          "op" : "register_read",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "ttl_count_0"]
+            },
+            {
+              "type" : "register_array",
+              "value" : "ttl_count_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_2"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 188,
+            "column" : 8,
+            "source_fragment" : "ttl_count_reg.read(ttl_count, ttl_idx)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "ttl_count_0"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "ttl_count_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 189,
+            "column" : 8,
+            "source_fragment" : "ttl_count = ttl_count + 1"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_3"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "&",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["ipv4", "ttl"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0xffffffff"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0x0000ffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 190,
+            "column" : 28,
+            "source_fragment" : "ttl_idx"
+          }
+        },
+        {
+          "op" : "register_write",
+          "parameters" : [
+            {
+              "type" : "register_array",
+              "value" : "ttl_count_reg"
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "tmp_3"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "ttl_count_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 190,
+            "column" : 8,
+            "source_fragment" : "ttl_count_reg.write(ttl_idx, ttl_count)"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.ct_state_ttl"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "ttl_count_0"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 191,
+            "column" : 8,
+            "source_fragment" : "meta.ct_state_ttl = ttl_count"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.vote_attack"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00000000"
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 194,
+            "column" : 8,
+            "source_fragment" : "meta.vote_attack = 0"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.vote_attack",
+      "id" : 1,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.vote_attack"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "metadata_t.vote_attack"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 199,
+            "column" : 8,
+            "source_fragment" : "meta.vote_attack = meta.vote_attack + 1"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.vote_attack",
+      "id" : 2,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.vote_attack"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "metadata_t.vote_attack"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 199,
+            "column" : 8,
+            "source_fragment" : "meta.vote_attack = meta.vote_attack + 1"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.vote_attack",
+      "id" : 3,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.vote_attack"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "metadata_t.vote_attack"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0x00000001"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xffffffff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 199,
+            "column" : 8,
+            "source_fragment" : "meta.vote_attack = meta.vote_attack + 1"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.vote_normal",
+      "id" : 4,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "MyIngress.vote_normal",
+      "id" : 5,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "MyIngress.vote_normal",
+      "id" : 6,
+      "runtime_data" : [],
+      "primitives" : []
+    },
+    {
+      "name" : "MyIngress.drop",
+      "id" : 7,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "mark_to_drop",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "standard_metadata"
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 202,
+            "column" : 20,
+            "source_fragment" : "mark_to_drop(smeta)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.drop",
+      "id" : 8,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "mark_to_drop",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "standard_metadata"
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 202,
+            "column" : 20,
+            "source_fragment" : "mark_to_drop(smeta)"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "MyIngress.forward",
+      "id" : 9,
+      "runtime_data" : [
+        {
+          "name" : "port",
+          "bitwidth" : 9
+        }
+      ],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["standard_metadata", "egress_spec"]
+            },
+            {
+              "type" : "runtime_data",
+              "value" : 0
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 204,
+            "column" : 8,
+            "source_fragment" : "smeta.egress_spec = port"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "rf_ddos_detect275",
+      "id" : 10,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.is_ddos"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x01"
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 275,
+            "column" : 16,
+            "source_fragment" : "meta.is_ddos = 1"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "rf_ddos_detect278",
+      "id" : 11,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "metadata_t.is_ddos"]
+            },
+            {
+              "type" : "hexstr",
+              "value" : "0x00"
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 278,
+            "column" : 16,
+            "source_fragment" : "meta.is_ddos = 0"
+          }
+        }
+      ]
+    }
+  ],
+  "pipelines" : [
+    {
+      "name" : "ingress",
+      "id" : 0,
+      "source_info" : {
+        "filename" : "p4/rf_ddos_detect.p4",
+        "line" : 120,
+        "column" : 8,
+        "source_fragment" : "MyIngress"
+      },
+      "init_table" : "node_2",
+      "tables" : [
+        {
+          "name" : "tbl_compute_flow_features",
+          "id" : 0,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 265,
+            "column" : 12,
+            "source_fragment" : "compute_flow_features()"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [0],
+          "actions" : ["MyIngress.compute_flow_features"],
+          "base_default_next" : "MyIngress.tree_0",
+          "next_tables" : {
+            "MyIngress.compute_flow_features" : "MyIngress.tree_0"
+          },
+          "default_entry" : {
+            "action_id" : 0,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "MyIngress.tree_0",
+          "id" : 1,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 211,
+            "column" : 10,
+            "source_fragment" : "tree_0"
+          },
+          "key" : [
+            {
+              "match_type" : "range",
+              "name" : "meta.sttl",
+              "target" : ["scalars", "metadata_t.sttl"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.rate",
+              "target" : ["scalars", "metadata_t.rate"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.smean",
+              "target" : ["scalars", "metadata_t.smean"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.sinpkt",
+              "target" : ["scalars", "metadata_t.sinpkt"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.ct_state_ttl",
+              "target" : ["scalars", "metadata_t.ct_state_ttl"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.dload",
+              "target" : ["scalars", "metadata_t.dload"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "range",
+          "type" : "simple",
+          "max_size" : 512,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [1, 4],
+          "actions" : ["MyIngress.vote_attack", "MyIngress.vote_normal"],
+          "base_default_next" : "MyIngress.tree_1",
+          "next_tables" : {
+            "MyIngress.vote_attack" : "MyIngress.tree_1",
+            "MyIngress.vote_normal" : "MyIngress.tree_1"
+          },
+          "default_entry" : {
+            "action_id" : 4,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          }
+        },
+        {
+          "name" : "MyIngress.tree_1",
+          "id" : 2,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 225,
+            "column" : 10,
+            "source_fragment" : "tree_1"
+          },
+          "key" : [
+            {
+              "match_type" : "range",
+              "name" : "meta.sttl",
+              "target" : ["scalars", "metadata_t.sttl"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.rate",
+              "target" : ["scalars", "metadata_t.rate"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.smean",
+              "target" : ["scalars", "metadata_t.smean"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.sinpkt",
+              "target" : ["scalars", "metadata_t.sinpkt"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.ct_state_ttl",
+              "target" : ["scalars", "metadata_t.ct_state_ttl"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.dload",
+              "target" : ["scalars", "metadata_t.dload"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "range",
+          "type" : "simple",
+          "max_size" : 512,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [2, 5],
+          "actions" : ["MyIngress.vote_attack", "MyIngress.vote_normal"],
+          "base_default_next" : "MyIngress.tree_2",
+          "next_tables" : {
+            "MyIngress.vote_attack" : "MyIngress.tree_2",
+            "MyIngress.vote_normal" : "MyIngress.tree_2"
+          },
+          "default_entry" : {
+            "action_id" : 5,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          }
+        },
+        {
+          "name" : "MyIngress.tree_2",
+          "id" : 3,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 239,
+            "column" : 10,
+            "source_fragment" : "tree_2"
+          },
+          "key" : [
+            {
+              "match_type" : "range",
+              "name" : "meta.sttl",
+              "target" : ["scalars", "metadata_t.sttl"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.rate",
+              "target" : ["scalars", "metadata_t.rate"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.smean",
+              "target" : ["scalars", "metadata_t.smean"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.sinpkt",
+              "target" : ["scalars", "metadata_t.sinpkt"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.ct_state_ttl",
+              "target" : ["scalars", "metadata_t.ct_state_ttl"],
+              "mask" : null
+            },
+            {
+              "match_type" : "range",
+              "name" : "meta.dload",
+              "target" : ["scalars", "metadata_t.dload"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "range",
+          "type" : "simple",
+          "max_size" : 512,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [3, 6],
+          "actions" : ["MyIngress.vote_attack", "MyIngress.vote_normal"],
+          "base_default_next" : "node_7",
+          "next_tables" : {
+            "MyIngress.vote_attack" : "node_7",
+            "MyIngress.vote_normal" : "node_7"
+          },
+          "default_entry" : {
+            "action_id" : 6,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          }
+        },
+        {
+          "name" : "tbl_rf_ddos_detect275",
+          "id" : 4,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 275,
+            "column" : 29,
+            "source_fragment" : "="
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [10],
+          "actions" : ["rf_ddos_detect275"],
+          "base_default_next" : "tbl_drop",
+          "next_tables" : {
+            "rf_ddos_detect275" : "tbl_drop"
+          },
+          "default_entry" : {
+            "action_id" : 10,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_drop",
+          "id" : 5,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 276,
+            "column" : 16,
+            "source_fragment" : "drop()"
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [8],
+          "actions" : ["MyIngress.drop"],
+          "base_default_next" : null,
+          "next_tables" : {
+            "MyIngress.drop" : null
+          },
+          "default_entry" : {
+            "action_id" : 8,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "tbl_rf_ddos_detect278",
+          "id" : 6,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 278,
+            "column" : 29,
+            "source_fragment" : "="
+          },
+          "key" : [],
+          "match_type" : "exact",
+          "type" : "simple",
+          "max_size" : 1024,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [11],
+          "actions" : ["rf_ddos_detect278"],
+          "base_default_next" : "MyIngress.ipv4_forward",
+          "next_tables" : {
+            "rf_ddos_detect278" : "MyIngress.ipv4_forward"
+          },
+          "default_entry" : {
+            "action_id" : 11,
+            "action_const" : true,
+            "action_data" : [],
+            "action_entry_const" : true
+          }
+        },
+        {
+          "name" : "MyIngress.ipv4_forward",
+          "id" : 7,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 254,
+            "column" : 10,
+            "source_fragment" : "ipv4_forward"
+          },
+          "key" : [
+            {
+              "match_type" : "lpm",
+              "name" : "hdr.ipv4.dst_addr",
+              "target" : ["ipv4", "dst_addr"],
+              "mask" : null
+            }
+          ],
+          "match_type" : "lpm",
+          "type" : "simple",
+          "max_size" : 256,
+          "with_counters" : false,
+          "support_timeout" : false,
+          "direct_meters" : null,
+          "action_ids" : [9, 7],
+          "actions" : ["MyIngress.forward", "MyIngress.drop"],
+          "base_default_next" : null,
+          "next_tables" : {
+            "MyIngress.forward" : null,
+            "MyIngress.drop" : null
+          },
+          "default_entry" : {
+            "action_id" : 7,
+            "action_const" : false,
+            "action_data" : [],
+            "action_entry_const" : false
+          }
+        }
+      ],
+      "action_profiles" : [],
+      "conditionals" : [
+        {
+          "name" : "node_2",
+          "id" : 0,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 262,
+            "column" : 12,
+            "source_fragment" : "hdr.ipv4.isValid()"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : "d2b",
+              "left" : null,
+              "right" : {
+                "type" : "field",
+                "value" : ["ipv4", "$valid$"]
+              }
+            }
+          },
+          "false_next" : null,
+          "true_next" : "tbl_compute_flow_features"
+        },
+        {
+          "name" : "node_7",
+          "id" : 1,
+          "source_info" : {
+            "filename" : "p4/rf_ddos_detect.p4",
+            "line" : 274,
+            "column" : 16,
+            "source_fragment" : "meta.vote_attack >= 2"
+          },
+          "expression" : {
+            "type" : "expression",
+            "value" : {
+              "op" : ">=",
+              "left" : {
+                "type" : "field",
+                "value" : ["scalars", "metadata_t.vote_attack"]
+              },
+              "right" : {
+                "type" : "hexstr",
+                "value" : "0x00000002"
+              }
+            }
+          },
+          "true_next" : "tbl_rf_ddos_detect275",
+          "false_next" : "tbl_rf_ddos_detect278"
+        }
+      ]
+    },
+    {
+      "name" : "egress",
+      "id" : 1,
+      "source_info" : {
+        "filename" : "p4/rf_ddos_detect.p4",
+        "line" : 286,
+        "column" : 8,
+        "source_fragment" : "MyEgress"
+      },
+      "init_table" : null,
+      "tables" : [],
+      "action_profiles" : [],
+      "conditionals" : []
+    }
+  ],
+  "checksums" : [],
+  "force_arith" : [],
+  "extern_instances" : [],
+  "field_aliases" : [
+    [
+      "queueing_metadata.enq_timestamp",
+      ["standard_metadata", "enq_timestamp"]
+    ],
+    [
+      "queueing_metadata.enq_qdepth",
+      ["standard_metadata", "enq_qdepth"]
+    ],
+    [
+      "queueing_metadata.deq_timedelta",
+      ["standard_metadata", "deq_timedelta"]
+    ],
+    [
+      "queueing_metadata.deq_qdepth",
+      ["standard_metadata", "deq_qdepth"]
+    ],
+    [
+      "intrinsic_metadata.ingress_global_timestamp",
+      ["standard_metadata", "ingress_global_timestamp"]
+    ],
+    [
+      "intrinsic_metadata.egress_global_timestamp",
+      ["standard_metadata", "egress_global_timestamp"]
+    ],
+    [
+      "intrinsic_metadata.mcast_grp",
+      ["standard_metadata", "mcast_grp"]
+    ],
+    [
+      "intrinsic_metadata.egress_rid",
+      ["standard_metadata", "egress_rid"]
+    ],
+    [
+      "intrinsic_metadata.priority",
+      ["standard_metadata", "priority"]
+    ]
+  ],
+  "program" : "./rf_ddos_detect.p4i",
+  "__meta__" : {
+    "version" : [2, 23],
+    "compiler" : "https://github.com/p4lang/p4c"
+  }
+}
