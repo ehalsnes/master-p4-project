@@ -55,7 +55,7 @@ tables {
   initial_default_action {
     action_id: 32447051
   }
-  size: 512
+  size: 2048
 }
 tables {
   preamble {
@@ -108,7 +108,7 @@ tables {
   initial_default_action {
     action_id: 32447051
   }
-  size: 512
+  size: 2048
 }
 tables {
   preamble {
@@ -161,7 +161,7 @@ tables {
   initial_default_action {
     action_id: 32447051
   }
-  size: 512
+  size: 2048
 }
 tables {
   preamble {
@@ -225,6 +225,28 @@ actions {
     name: "port"
     bitwidth: 9
   }
+}
+counters {
+  preamble {
+    id: 311565437
+    name: "counter_pkts_dropped"
+    alias: "counter_pkts_dropped"
+  }
+  spec {
+    unit: PACKETS
+  }
+  size: 1
+}
+counters {
+  preamble {
+    id: 308307415
+    name: "counter_pkts_forwarded"
+    alias: "counter_pkts_forwarded"
+  }
+  spec {
+    unit: PACKETS
+  }
+  size: 1
 }
 registers {
   preamble {

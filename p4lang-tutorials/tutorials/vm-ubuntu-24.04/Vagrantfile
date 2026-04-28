@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: Apache-2.0
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "bento/ubuntu-24.04"
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.hostname = "p4"
+  config.vm.define "dev", primary: true do |dev|
+    dev.vm.provider "virtualbox" do |v|
+      v.name = "P4 Tutorial Development" + Time.now.strftime(" %Y-%m-%d")
+    end
+    dev.vm.provision "shell", path: "root-bootstrap.sh"
+  end
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = true
+    # Larger memory and vcpus helps build p4c from source
+    # significantly faster.  Reduce this using VirtualBox settings
+    # before creating VM image if desired.
+    vb.memory = 8192
+    vb.cpus = 4
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    vb.customize [
+      "storageattach", :id,
+      "--storagectl", "IDE Controller",
+      "--port", "0",
+      "--device", "0",
+      "--type", "dvddrive",
+      "--medium", "emptydrive"
+    ]
+    vb.customize ["modifyvm", :id, "--vram", "64"]
+  end
+end

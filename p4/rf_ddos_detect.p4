@@ -84,6 +84,10 @@ register<bit<48>>(FLOW_SIZE) last_seen_reg;
 register<bit<32>>(FLOW_SIZE) ttl_count_reg;
 register<bit<32>>(FLOW_SIZE) smean_reg;
 
+/* ── Counters ─────────────────────────────────────────────────── */
+counter(1, CounterType.packets) counter_pkts_dropped;
+counter(1, CounterType.packets) counter_pkts_forwarded;
+
 /* ── Parser ───────────────────────────────────────────────────── */
 parser MyParser(
     packet_in             pkt,
@@ -147,7 +151,7 @@ control MyIngress(
         idle = 0;
         if (last_seen > 0) {
             idle = smeta.ingress_global_timestamp - last_seen;
-            meta.sinpkt = (bit<32>)idle;
+            meta.sinpkt = (bit<32>)(idle >> 10); // μs → ms (÷1024 ≈ ÷1000)
         }
 
         /* Read counters */
@@ -195,6 +199,8 @@ control MyIngress(
         ttl_count_reg.read(ttl_count, ttl_idx);
         ttl_count = ttl_count + 1;
         ttl_count_reg.write(ttl_idx, ttl_count);
+        // saturate at 15 so the value stays within the model's expected range (0–6)
+        if (ttl_count > 15) { ttl_count = 15; }
         meta.ct_state_ttl = ttl_count;
 
         /* Initialise vote counter */
@@ -226,7 +232,7 @@ control MyIngress(
         }
         actions        = { vote_attack; vote_normal; }
         default_action = vote_normal();
-        size           = 512;
+        size           = 2048;
     }
 
     table tree_1 {
@@ -240,7 +246,7 @@ control MyIngress(
         }
         actions        = { vote_attack; vote_normal; }
         default_action = vote_normal();
-        size           = 512;
+        size           = 2048;
     }
 
     table tree_2 {
@@ -254,7 +260,7 @@ control MyIngress(
         }
         actions        = { vote_attack; vote_normal; }
         default_action = vote_normal();
-        size           = 512;
+        size           = 2048;
     }
 
     /* ── Forwarding table ─────────────────────────────────────── */
@@ -283,9 +289,11 @@ control MyIngress(
             /* Step 3 — majority vote decision */
             if (meta.vote_attack >= VOTE_THRESH) {
                 meta.is_ddos = 1;
-                drop();          // block DDoS traffic
+                counter_pkts_dropped.count(0);
+                drop();
             } else {
                 meta.is_ddos = 0;
+                counter_pkts_forwarded.count(0);
                 ipv4_forward.apply();
             }
         }

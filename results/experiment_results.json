@@ -1,47 +1,64 @@
 {
-  "control_5mbps_legit_mbps": 6.13,
+  "control_5mbps_legit_mbps": 5.03,
   "control_5mbps_trials": [
-    6.11,
-    6.1,
-    6.18
+    5.06,
+    4.99
   ],
-  "control_5mbps_rtt": "rtt min/avg/max/mdev = 2.741/3.183/3.540/0.173 ms",
-  "control_5mbps_h2_tx_pkts": 3,
-  "control_5mbps_h3_rx_pkts": 36610,
-  "baseline_mbps": 45.2,
+  "control_5mbps_rtt": "rtt min/avg/max/mdev = 5.342/5.738/6.286/0.217 ms",
+  "control_5mbps_h2_tx_pkts": 2,
+  "control_5mbps_h3_rx_pkts": 23936,
+  "control_5mbps_classifier_dropped": 0,
+  "control_5mbps_classifier_forwarded": 41207,
+  "baseline_mbps": 11.35,
   "baseline_trials": [
-    45.2
+    5.19,
+    23.5,
+    5.36
   ],
-  "baseline_rtt": "rtt min/avg/max/mdev = 3.015/3.340/5.841/0.462 ms",
-  "attack_2mbps_legit_mbps": 5.96,
+  "baseline_classifier_dropped": 9,
+  "baseline_classifier_forwarded": 33962,
+  "baseline_rtt": "rtt min/avg/max/mdev = 5.489/5.855/7.197/0.326 ms",
+  "attack_2mbps_legit_mbps": 11.29,
   "attack_2mbps_trials": [
-    5.86,
-    5.96,
-    6.06
+    5.82,
+    22.9,
+    5.16
   ],
-  "attack_2mbps_rtt": "rtt min/avg/max/mdev = 2.989/3.834/8.973/1.193 ms",
-  "attack_2mbps_h2_tx_pkts": 1,
-  "attack_2mbps_h3_rx_pkts": 37152,
-  "attack_2mbps_drop_pct": 0.0,
-  "attack_5mbps_legit_mbps": 35.8,
+  "attack_2mbps_rtt": "rtt min/avg/max/mdev = 3.200/5.617/6.685/1.082 ms",
+  "attack_2mbps_h2_tx_pkts": 0,
+  "attack_2mbps_h3_rx_pkts": 19595,
+  "attack_2mbps_classifier_dropped": 7,
+  "attack_2mbps_classifier_forwarded": 31325,
+  "attack_2mbps_classifier_drop_pct": 0.0,
+  "attack_5mbps_legit_mbps": 17.3,
   "attack_5mbps_trials": [
-    35.8
+    23.0,
+    5.2,
+    23.7
   ],
-  "attack_5mbps_rtt": "rtt min/avg/max/mdev = 4.424/4.572/5.034/0.132 ms",
+  "attack_5mbps_rtt": "rtt min/avg/max/mdev = 3.257/6.670/20.663/3.359 ms",
   "attack_5mbps_h2_tx_pkts": 0,
-  "attack_5mbps_h3_rx_pkts": 36,
-  "attack_10mbps_legit_mbps": 5.66,
+  "attack_5mbps_h3_rx_pkts": 10463,
+  "attack_5mbps_classifier_dropped": 5,
+  "attack_5mbps_classifier_forwarded": 17109,
+  "attack_5mbps_classifier_drop_pct": 0.0,
+  "attack_10mbps_legit_mbps": 12.83,
   "attack_10mbps_trials": [
-    5.69,
-    5.64,
-    5.66
+    5.21,
+    28.0,
+    5.29
   ],
-  "attack_10mbps_rtt": "rtt min/avg/max/mdev = 3.050/3.572/3.834/0.218 ms",
+  "attack_10mbps_rtt": "rtt min/avg/max/mdev = 3.292/5.415/6.177/0.958 ms",
   "attack_10mbps_h2_tx_pkts": 1,
-  "attack_10mbps_h3_rx_pkts": 35793,
+  "attack_10mbps_h3_rx_pkts": 19867,
   "attack_10mbps_drop_pct": 0.0,
-  "recovery_mbps": 42.1,
+  "attack_10mbps_classifier_dropped": 7,
+  "attack_10mbps_classifier_forwarded": 32256,
+  "attack_10mbps_classifier_drop_pct": 0.0,
+  "recovery_mbps": 20.18,
   "recovery_trials": [
-    42.1
+    30.6,
+    5.45,
+    24.5
   ]
 }

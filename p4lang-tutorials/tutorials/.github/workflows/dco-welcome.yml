@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2026 Fabian Ruffy
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: DCO Assistant for First-Time Contributors
+
+on:
+  check_run:
+    types: [completed]
+
+jobs:
+  dco-help:
+    # https://github.com/p4lang/.github/blob/main/.github/workflows/dco-welcome-reusable.yml
+    uses: p4lang/.github/.github/workflows/dco-welcome-reusable.yml@main

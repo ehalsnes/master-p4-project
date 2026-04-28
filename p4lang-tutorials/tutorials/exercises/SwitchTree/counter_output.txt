@@ -1,0 +1,13 @@
+Obtaining JSON from switch...
+Done
+Control utility for runtime P4 table manipulation
+RuntimeCmd: counter_pkts[0]= (236136 bytes, 2048 packets)
+RuntimeCmd: counter_hash_collisions[0]= (824 bytes, 12 packets)
+RuntimeCmd: counter_malware[0]= (98944 bytes, 368 packets)
+RuntimeCmd: counter_timeout[0]= (12690 bytes, 153 packets)
+RuntimeCmd: counter_flows[0]= (25380 bytes, 306 packets)
+RuntimeCmd: counter_malware_flows[0]= (1872 bytes, 20 packets)
+RuntimeCmd: counter_true_detection_flows[0]= (3506 bytes, 20 packets)
+RuntimeCmd: counter_false_detection_flows[0]= (0 bytes, 0 packets)
+RuntimeCmd: counter_false_detection[0]= (0 bytes, 0 packets)
+RuntimeCmd: 
