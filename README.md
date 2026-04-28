@@ -118,7 +118,7 @@ cd p4lang-tutorials/tutorials/exercises/SwitchTree
 make clean
 
 # Use SwitchTree with 3 trees
-simple_switch_CLI < get_results.txt
+cp switchtree.3trees switchtree.p4
 
 # Start topology (opens Mininet CLI)
 make
