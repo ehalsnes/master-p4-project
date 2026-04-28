@@ -18,11 +18,6 @@ Two complementary implementations are included:
 
 ```
 p4_ddos_thesis/
-├── p4/
-│   ├── rf_ddos_detect.p4          # Thesis P4 program (RANGE tables, gRPC)
-│   ├── rf_ddos_detect.json        # BMv2 compiled JSON
-│   └── rf_ddos_detect.p4info.txt  # P4Info for P4Runtime
-│
 ├── controller/
 │   └── populate_tables.py         # Installs RF trees onto switch via P4Runtime
 │
@@ -33,11 +28,6 @@ p4_ddos_thesis/
 ├── pcap/
 │   ├── raw/                       # Original UNSW-NB15 capture
 │   └── remapped/                  # MAC/IP-remapped for Mininet replay
-│
-├── results/
-│   ├── experiment_results.json    # Throughput, RTT, drop-rate measurements
-│   ├── figures/                   # Generated plots
-│   └── logs/                      # BMv2 switch logs per experiment run
 │
 └── p4lang-tutorials/
     └── tutorials/exercises/SwitchTree/   # SwitchTree implementation
