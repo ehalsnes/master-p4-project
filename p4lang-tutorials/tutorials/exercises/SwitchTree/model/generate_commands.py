@@ -61,13 +61,11 @@ def parse_args():
     ap = argparse.ArgumentParser(
         description='Convert rf_model.json → simple_switch_CLI commands')
     ap.add_argument('--rf-model',
-                    default=os.path.join(_here, 'rf_model.json'),
-                    help='RF model JSON (default: rf_model.json next to this script)')
+                    default=os.path.join(_here, 'model', 'rf_model.json'),
+                    help='RF model JSON (default: model/rf_model.json)')
     ap.add_argument('--out',
-                    default=os.path.join(_here, '..', 'p4lang-tutorials',
-                                         'tutorials', 'exercises',
-                                         'SwitchTree', 'commands_rf.txt'),
-                    help='Output commands file')
+                    default=os.path.join(_here, '..', 'commands_rf.txt'),
+                    help='Output commands file (default: commands_rf.txt in SwitchTree/)')
     ap.add_argument('--trees', nargs=3, type=int, default=[74, 60, 32],
                     metavar=('T1', 'T2', 'T3'),
                     help='RF model tree indices to use (default: 74 60 32)')
