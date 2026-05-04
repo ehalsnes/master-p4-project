@@ -7,3 +7,11 @@ counter_read counter_malware_flows 0
 counter_read counter_true_detection_flows 0
 counter_read counter_false_detection_flows 0
 counter_read counter_false_detection 0
+register_read MyEgress.reg_deq_count 0
+register_read MyEgress.reg_deq_sum 0
+register_read MyEgress.reg_deq_min 0
+register_read MyEgress.reg_deq_max 0
+register_read MyEgress.reg_ing_count 0
+register_read MyEgress.reg_ing_sum 0
+register_read MyEgress.reg_ing_min 0
+register_read MyEgress.reg_ing_max 0

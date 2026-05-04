@@ -1497,7 +1497,65 @@ control MyIngress(inout headers hdr,
 control MyEgress(inout headers hdr,
                  inout metadata meta,
                  inout standard_metadata_t standard_metadata) {
-    apply {  }
+
+    register<bit<32>>(1) reg_deq_count;
+    register<bit<32>>(1) reg_deq_sum;
+    register<bit<32>>(1) reg_deq_min;
+    register<bit<32>>(1) reg_deq_max;
+
+    register<bit<32>>(1) reg_ing_count;
+    register<bit<32>>(1) reg_ing_sum;
+    register<bit<32>>(1) reg_ing_min;
+    register<bit<32>>(1) reg_ing_max;
+
+    apply {
+        bit<32> deq = standard_metadata.deq_timedelta;
+        bit<32> deq_cnt; bit<32> deq_s; bit<32> deq_lo; bit<32> deq_hi;
+        reg_deq_count.read(deq_cnt, 0);
+        reg_deq_sum.read(deq_s, 0);
+        reg_deq_min.read(deq_lo, 0);
+        reg_deq_max.read(deq_hi, 0);
+
+        if (deq_cnt == 0) {
+            deq_lo = deq;
+            deq_hi = deq;
+        } else {
+            if (deq < deq_lo) { deq_lo = deq; }
+            if (deq > deq_hi) { deq_hi = deq; }
+        }
+        deq_cnt = deq_cnt + 1;
+        deq_s   = deq_s + deq;
+
+        reg_deq_count.write(0, deq_cnt);
+        reg_deq_sum.write(0, deq_s);
+        reg_deq_min.write(0, deq_lo);
+        reg_deq_max.write(0, deq_hi);
+
+        // Ingress+egress processing time = total elapsed - queue delay
+        bit<48> total_delta = standard_metadata.egress_global_timestamp
+                            - standard_metadata.ingress_global_timestamp;
+        bit<32> ing = (bit<32>)total_delta - standard_metadata.deq_timedelta;
+        bit<32> ing_cnt; bit<32> ing_s; bit<32> ing_lo; bit<32> ing_hi;
+        reg_ing_count.read(ing_cnt, 0);
+        reg_ing_sum.read(ing_s, 0);
+        reg_ing_min.read(ing_lo, 0);
+        reg_ing_max.read(ing_hi, 0);
+
+        if (ing_cnt == 0) {
+            ing_lo = ing;
+            ing_hi = ing;
+        } else {
+            if (ing < ing_lo) { ing_lo = ing; }
+            if (ing > ing_hi) { ing_hi = ing; }
+        }
+        ing_cnt = ing_cnt + 1;
+        ing_s   = ing_s + ing;
+
+        reg_ing_count.write(0, ing_cnt);
+        reg_ing_sum.write(0, ing_s);
+        reg_ing_min.write(0, ing_lo);
+        reg_ing_max.write(0, ing_hi);
+    }
 }
 
 /*************************************************************************
