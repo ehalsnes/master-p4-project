@@ -148,9 +148,9 @@ Expected counters after replay:
 
 ---
 
-## Reference
+## References & External Contributions 
 
-SwitchTree: Jong-Hyouk Lee and Kamal Singh, *"SwitchTree: In-network Computing and Traffic Analyses with Random Forests"*, Neural Computing and Applications, 2020.
+SwitchTree: Jong-Hyouk Lee and Kamal Singh, *"SwitchTree: In-network Computing and Traffic Analyses with Random Forests"*, Neural Computing and Applications, 2020. Repository: https://github.com/ksingh25/SwitchTree
 
 p4lang/tutorials. (May 19, 2026). Python. p4language. Accessed: May 21, 2026. [Online]. Available: https://github.com/p4lang/tutorials
 
