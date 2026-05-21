@@ -25,15 +25,13 @@ p4_ddos_thesis/
 │   ├── train_rf.py                # Train RF on UNSW-NB15 CSV → rf_model.json
 │   └── gen_commands.py            # RF model → simple_switch_CLI commands.txt
 │
-├── pcap/
-│   ├── raw/                       # Original UNSW-NB15 capture
-│   └── remapped/                  # MAC/IP-remapped for Mininet replay
-│
 └── p4lang-tutorials/
     └── tutorials/exercises/SwitchTree/   # SwitchTree implementation
         ├── switchtree.p4                 # SwitchTree P4 (node-chain tables)
         ├── commands_1_tree.txt           # Pre-built CLI commands (1 tree)
         ├── commands_3_trees.txt          # Pre-built CLI commands (3 trees)
+        ├── commands_baseline.txt         # Model with small-subsets of rules for comparison
+        ├── commands_rf.txt               # Decision-tree classifiers from trained RF (INC inference)
         ├── demo_data/UNSW_1000_packets.pcap
         └── model/
             ├── train_rf.py              # Train RF → rf_model.json
@@ -45,7 +43,7 @@ p4_ddos_thesis/
 
 ## Dataset
 
-**UNSW-NB15** — hybrid real/synthetic network traffic dataset from the Australian Centre for Cyber Security.
+**UNSW-NB15** — Hybrid real/synthetic network traffic dataset from the Australian Centre for Cyber Security from 2015
 
 - Normal traffic mixed with nine attack categories (DDoS, DoS, backdoor, fuzzer, …)
 - Training set: `SwitchTree/model/UNSW_NB15_training-set.csv`
@@ -70,7 +68,7 @@ p4_ddos_thesis/
 # Navigate to script folder
 cd p4lang-tutorials/vm-ubuntu-24.04
 
-# Install dependencies using script 
+# Install dependencies using script from the P4 community
 ./install.sh
 
 # Check ~/.bashrc for source ~/p4setup.bash
@@ -78,10 +76,7 @@ nano ~/.bashrc
 
 # Initiate ~/.bashrc 
 source ~/.bashrc
-
 ```
-
-The P4Runtime protobuf bindings are expected at `PI/proto/py_out/` relative to the project root (installed with the p4lang PI library).
 
 ---
 
@@ -156,3 +151,6 @@ Expected counters after replay:
 ## Reference
 
 SwitchTree: Jong-Hyouk Lee and Kamal Singh, *"SwitchTree: In-network Computing and Traffic Analyses with Random Forests"*, Neural Computing and Applications, 2020.
+
+p4lang/tutorials. (May 19, 2026). Python. p4language. Accessed: May 21, 2026. [Online]. Available: https://github.com/p4lang/tutorials
+
