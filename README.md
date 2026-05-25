@@ -33,6 +33,9 @@ p4_ddos_thesis/
         ├── commands_baseline.txt         # Model with small-subsets of rules for comparison
         ├── commands_rf.txt               # Decision-tree classifiers from trained RF (INC inference)
         ├── demo_data/UNSW_1000_packets.pcap
+        └── scikit-learn/
+            ├── feature-selection.ipynb   # Exploring features selection process of UNSW-NB15
+            └── notebook.ipynb            # Determine features importance of UNSW-NB15 on DDoS attack surface and training RF/IF
         └── model/
             ├── train_rf.py              # Train RF → rf_model.json
             ├── gen_commands.py          # rf_model.json → commands_rf.txt
