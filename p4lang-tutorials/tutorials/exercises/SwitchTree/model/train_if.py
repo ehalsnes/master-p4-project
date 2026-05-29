@@ -233,8 +233,10 @@ def main():
     os.makedirs(charts_dir, exist_ok=True)
 
     # Confusion matrix
+    total = cm.sum()
+    annot = np.array([[f'{v}\n({v/total*100:.1f}%)' for v in row] for row in cm])
     fig, ax = plt.subplots(figsize=(5, 4))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Oranges', ax=ax,
+    sns.heatmap(cm, annot=annot, fmt='', cmap='Oranges', ax=ax,
                 xticklabels=['normal', 'attack'],
                 yticklabels=['normal', 'attack'])
     ax.set_xlabel('Predicted')

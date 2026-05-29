@@ -226,19 +226,29 @@ def main():
     print(f'ROC-AUC: {auc:.4f}')
 
     metrics = {
-        'Accuracy':  accuracy_score(y_test, y_pred),
-        'Precision': precision_score(y_test, y_pred),
-        'Recall':    recall_score(y_test, y_pred),
-        'F1-score':  f1_score(y_test, y_pred),
-        'ROC-AUC':   auc,
+        'model':      'RandomForest',
+        'n_estimators': args.n_trees,
+        'max_depth':  args.max_depth,
+        'Accuracy':   accuracy_score(y_test, y_pred),
+        'Precision':  precision_score(y_test, y_pred),
+        'Recall':     recall_score(y_test, y_pred),
+        'F1-score':   f1_score(y_test, y_pred),
+        'ROC-AUC':    auc,
     }
+
+    metrics_path = os.path.join(os.path.dirname(out), 'rf_metrics.json')
+    with open(metrics_path, 'w') as f:
+        json.dump(metrics, f, indent=2)
+    print(f'  Metrics saved → {metrics_path}')
 
     charts_dir = os.path.join(os.path.dirname(out), 'figures')
     os.makedirs(charts_dir, exist_ok=True)
 
     # Confusion matrix
+    total = cm.sum()
+    annot = np.array([[f'{v}\n({v/total*100:.1f}%)' for v in row] for row in cm])
     fig, ax = plt.subplots(figsize=(5, 4))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax,
+    sns.heatmap(cm, annot=annot, fmt='', cmap='Blues', ax=ax,
                 xticklabels=['normal', 'attack'],
                 yticklabels=['normal', 'attack'])
     ax.set_xlabel('Predicted')
@@ -262,12 +272,14 @@ def main():
     plt.close(fig)
 
     # Classification metrics bar chart
+    plot_metrics = {k: v for k, v in metrics.items()
+                    if k in ('Accuracy', 'Precision', 'Recall', 'F1-score', 'ROC-AUC')}
     fig, ax = plt.subplots(figsize=(6, 4))
-    bars = ax.bar(metrics.keys(), metrics.values(), color='steelblue', edgecolor='white')
+    bars = ax.bar(plot_metrics.keys(), plot_metrics.values(), color='steelblue', edgecolor='white')
     ax.set_ylim(0, 1.05)
     ax.set_ylabel('Score')
     ax.set_title('Classification Metrics — RF')
-    for bar, val in zip(bars, metrics.values()):
+    for bar, val in zip(bars, plot_metrics.values()):
         ax.text(bar.get_x() + bar.get_width() / 2, val + 0.01,
                 f'{val:.4f}', ha='center', va='bottom', fontsize=9)
     fig.tight_layout()
