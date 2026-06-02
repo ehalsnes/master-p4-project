@@ -142,9 +142,6 @@ Expected counters after replay:
 | `counter_true_detection_flows` | Correctly classified attack flows |
 | `counter_false_detection_flows` | Legitimate flows mis-classified |
 
-> **Note:** `commands_rf.txt` and the pre-built `commands_3_trees.txt` include the required `direction`, `malware`, and `ipv4_exact` routing entries. Loading tree-only files (e.g. `ddos_trees.txt`) without these entries leaves all flow counters at zero because `meta.direction` defaults to 0 and no forward-flow tracking occurs.
-
-
 > **Tree selection:** `TREE_INDICES = [74, 60, 32]` in `populate_tables.py` selects three trees from the 100-tree model. These were chosen by exhaustive search over all C(100, 3) triples for the triple that best classifies the UNSW-NB15 pcap given the P4 feature proxies. Trees 0–2 label attack traffic as normal on replay.
 
 ---
